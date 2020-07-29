@@ -15,6 +15,15 @@ func NewProduct(l *log.Logger) *Product  {
 }
 
 func (p *Product) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		p.getProducts(rw, r)
+		return
+	}
+	// catch all
+	rw.WriteHeader(http.StatusMethodNotAllowed)
+}
+
+func (p *Product) getProducts(rw http.ResponseWriter, r *http.Request) {
 	pl := data.GetProducts()
 	//// serializing into JSON with Marshaling
 	//d, err := json.Marshal(pl)
