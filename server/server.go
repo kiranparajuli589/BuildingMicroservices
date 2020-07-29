@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/kiranparajuli589/building-microservices/handler"
 	"log"
 	"net/http"
@@ -12,6 +13,7 @@ import (
 
 func main() {
 	l := log.New(os.Stdout, "building-microservices", log.LstdFlags)
+	port := ":9090"
 
 	// create the handlers
 	newHello := handler.NewHello(l)
@@ -26,7 +28,7 @@ func main() {
 
 	// create a new server
 	s := &http.Server{
-		Addr:              ":9090",           // configure the bind address
+		Addr:              port,           // configure the bind address
 		Handler:           sm,                // set the default handler
 		ErrorLog:          l,                 // set the logger for the server
 		ReadHeaderTimeout: 1 * time.Second,   // max time to read request from the client
@@ -36,6 +38,7 @@ func main() {
 
 	// start the server
 	go func() {
+		fmt.Printf("Server started at http://localhost%s\n", port)
 		err := s.ListenAndServe()
 		if err != nil {
 			l.Fatal(err)
@@ -43,11 +46,11 @@ func main() {
 	}()
 
 	// trap sigterm or interrupt and gracefully shutdown the server
-	signalChannel := make(chan os.Signal)
-	signal.Notify(signalChannel, os.Interrupt)
-	signal.Notify(signalChannel, os.Kill)
+	sigChan := make(chan os.Signal)
+	signal.Notify(sigChan, os.Interrupt)
+	signal.Notify(sigChan, os.Kill)
 
-	sig := <-signalChannel
+	sig := <-sigChan // consume the signal message
 	l.Printf("Received %v order! Performing graceful SHUTDOWN...", sig)
 
 	tc, _ := context.WithTimeout(context.Background(), 30*time.Second)
