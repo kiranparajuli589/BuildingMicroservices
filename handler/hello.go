@@ -8,6 +8,15 @@ import (
 )
 
 type Hello struct {
+	/*
+		Dependency Injection
+		- For faster unit tests
+		- Clean Handler
+		- No directly creating concrete objects inside handler (avoid if possible)
+		- Benefits:
+			- In test we can use logger with something else. No worries about concrete implementations
+			- Sometimes we want to log to file or to std out (more configurable)
+	*/
 	l *log.Logger
 }
 
