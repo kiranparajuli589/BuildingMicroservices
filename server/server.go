@@ -12,12 +12,14 @@ import (
 
 func main() {
 	l := log.New(os.Stdout, "building-microservices", log.LstdFlags)
-	helloHandler := handler.NewHello(l)
-	byeHandler := handler.NewBye(l)
+	newHello := handler.NewHello(l)
+	newBye := handler.NewBye(l)
+	newProduct := handler.NewProduct(l)
 
 	sm := http.NewServeMux()
-	sm.Handle("/hello", helloHandler)
-	sm.Handle("/bye", byeHandler)
+	sm.Handle("/hello", newHello)
+	sm.Handle("/bye", newBye)
+	sm.Handle("/", newProduct)
 
 	s := &http.Server{
 		Addr:              ":9090",
