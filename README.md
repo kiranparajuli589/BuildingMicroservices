@@ -16,4 +16,6 @@ Building HTTP REST Web Server using only standard libraries.
 
 - https://golang.org/pkg/encoding/json
 
+- https://golang.org/pkg/regexp
+
 Special thanks to: [NicJackson](https://www.youtube.com/playlist?list=PLmD8u-IFdreyh6EUfevBcbiuCKzFk0EW_) 
