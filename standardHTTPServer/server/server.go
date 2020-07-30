@@ -28,7 +28,7 @@ func main() {
 
 	// create a new server
 	s := &http.Server{
-		Addr:              port,           // configure the bind address
+		Addr:              port,              // configure the bind address
 		Handler:           sm,                // set the default handler
 		ErrorLog:          l,                 // set the logger for the server
 		ReadHeaderTimeout: 1 * time.Second,   // max time to read request from the client
